@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+//package proto;
+
+option go_package="github.com/cloudbiter/guess-number-grpc/proto";
+
+message JoinGameRequest {
+    string gameName = 1;
+}
+
+message JoinGameAnswer {
+    string replyMessage = 1;
+    int32  numMax = 2;
+}
+
+message GuessNumber {
+    int32 guess = 1;
+}
+
+message GuessNumberHint {
+    int32 hint = 1;
+    string hintMessage = 2;
+}
+
+// service for guess number game , client ask for joining this game ,  server respone yes('true') if it is available , or no('false') if it is playing a game right now.
+// client guess a number and send it to server , server reply a hint to help the client give another a guess.
+service GuessNumberGame {
+    // send a request for joining game
+    rpc JoinGame (JoinGameRequest) returns (JoinGameAnswer) ;
+    // guess a number ,then server respone a hint
+    rpc GuessNumberRight(GuessNumber) returns (GuessNumberHint);
+}
